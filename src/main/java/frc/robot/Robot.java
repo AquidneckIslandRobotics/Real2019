@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.StupidDrive;
+import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +24,7 @@ import frc.robot.subsystems.StupidDrive;
  */
 public class Robot extends TimedRobot {
   public static StupidDrive mDrive = new StupidDrive();
+  public static Vision mVision = new Vision();
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -133,6 +135,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Angle", mDrive.gyro.getAngle());
     SmartDashboard.putNumber("pidGet() Gyro", mDrive.gyro.pidGet());
     SmartDashboard.putBoolean("drivingForwards", mDrive.drivingForwards);
+    SmartDashboard.putNumber("Vision X", mVision.getAverageX());
+    SmartDashboard.putNumber("Vision Angle", mVision.getVisionAngle());
   }
 
   /**

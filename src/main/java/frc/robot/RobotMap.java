@@ -35,4 +35,5 @@ public class RobotMap {
 
   //Constants
   public static final double feetToClicks = (1024) / (0.5 * Math.PI);
+  public static final double pixelsToDegrees = 0.0953125;
 }
