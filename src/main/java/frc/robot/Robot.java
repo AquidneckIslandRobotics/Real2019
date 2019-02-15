@@ -12,8 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.StupidDrive;
 import frc.robot.subsystems.Vision;
+
+import frc.robot.commands.autos.CenterAuto;
+import frc.robot.commands.autos.RightRocket;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +29,7 @@ import frc.robot.subsystems.Vision;
 public class Robot extends TimedRobot {
   public static StupidDrive mDrive = new StupidDrive();
   public static Vision mVision = new Vision();
+  public static Elevator mElevator = new Elevator();
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -38,11 +43,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     // mDrive = new StupidDrive();
-
     mDrive.initDriveControllers();
     mDrive.resetDriveEncoders();
     mDrive.resetGyro();
-    // chooser.addOption("My Auto", new MyAutoCommand());
+    mElevator.initElevatorController();
+    
+    m_chooser.addOption("Center Auto", new CenterAuto());
+    m_chooser.addOption("Right Rocket", new RightRocket());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 

@@ -29,11 +29,23 @@ public class RobotMap {
   public static final int leftFollower1 = 2;
   public static final int leftFollower2 = 3;
   public static final int rightLeader = 4;
-  
   public static final int rightFollower1 = 5;
   public static final int rightFollower2 = 6;
+
+  //Elevator Motor
+  public static final int elevator = 0; //UPDATE
+
+  //Elevator Presets
+  public static final double intake = 0;
+  public static final double cargoShip = 0;
+  public static final double lowRocket = 0;
+  public static final double midRocket = 0;
+  public static final double highRocket = 0;
 
   //Constants
   public static final double feetToClicks = (1024) / (0.5 * Math.PI);
   public static final double pixelsToDegrees = 0.0953125;
+  public static final double cameraCenter = 319.5;
+  public static final double focalLength = 554.256;
+  public static final double triggerDeadzone = 0.05;
 }

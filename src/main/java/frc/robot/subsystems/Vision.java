@@ -22,6 +22,9 @@ public class Vision extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  double mCenter = RobotMap.cameraCenter;
+  double mFocalLength = RobotMap.focalLength;
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -29,27 +32,18 @@ public class Vision extends Subsystem {
   }
 
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
-  NetworkTable table = inst.getTable("vision");
-  NetworkTableEntry xvals = table.getEntry("xval");
-  double[] defaultValue = {320};
+  NetworkTable table = inst.getTable("RPi");
+  NetworkTableEntry xvals = table.getEntry("visionX");
+  double[] defaultValue = {mCenter};
 
   public double getAverageX() {
     double[] array = xvals.getDoubleArray(defaultValue);
     if(array.length > 1) return (array[0] + array[1]) / 2;
-    else return 320; //Default to center pixel value
+    else return 319.5; //Default to center pixel value
   }
 
   public double getVisionAngle() {
-    // double averageX = getAverageX();
-    // double robotAngle = Robot.mDrive.getAngle();
-    // if(averageX < 320) {
-    //   return (robotAngle - ((320 - averageX) * RobotMap.pixelsToDegrees));
-    // } else if(averageX > 320) {
-    //   return (robotAngle + ((averageX - 320) * RobotMap.pixelsToDegrees));
-    // } else {
-    //   return robotAngle;
-    // }
-    return (getAverageX() - 320) * RobotMap.pixelsToDegrees;
+    return (Math.atan((getAverageX() - defaultValue[0]) / mFocalLength)) * (180/Math.PI);
   }
 
 }

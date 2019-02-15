@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.SetElevatorPID;
 import frc.robot.commands.ToggleDriveOrientation;
 import frc.robot.commands.TurnAbsolute;
+import frc.robot.utilities.XboxTriggerButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -32,25 +34,47 @@ public class OI {
   Button driverA = new JoystickButton(driverStick, 1);
   Button driverB = new JoystickButton(driverStick, 2);
   Button driverX = new JoystickButton(driverStick, 3);
+  Button driverY = new JoystickButton(driverStick, 4);
   Button driverLB = new JoystickButton(driverStick, 5);
   Button driverRB = new JoystickButton(driverStick, 6);
+  Button driverLT = new XboxTriggerButton(driverStick, Hand.kLeft, RobotMap.triggerDeadzone);
+  Button driverRT = new XboxTriggerButton(driverStick, Hand.kRight, RobotMap.triggerDeadzone);
+
+  XboxController manipulatorStick = new XboxController(1);
+  Button manipulatorA = new JoystickButton(manipulatorStick, 1);
+  Button manipulatorB = new JoystickButton(manipulatorStick, 2);
+  Button manipulatorX = new JoystickButton(manipulatorStick, 3);
+  Button manipulatorY = new JoystickButton(manipulatorStick, 4);
+  Button manipulatorLB = new JoystickButton(manipulatorStick, 5);
+  Button manipulatorRB = new JoystickButton(manipulatorStick, 6);
+  Button manipulatorBack = new JoystickButton(manipulatorStick, 7);
+  Button manipulatorLT = new XboxTriggerButton(manipulatorStick, Hand.kLeft, RobotMap.triggerDeadzone);
+  Button manipulatorRT = new XboxTriggerButton(manipulatorStick, Hand.kRight, RobotMap.triggerDeadzone);
 
   public OI() {
+    //Driver Controls
     driverA.whenPressed(new DriveDistance(5));
     driverB.whenPressed(new CheesyDrive());
     driverX.whenPressed(new TurnAbsolute(45));
     driverLB.whenPressed(new ToggleDriveOrientation());
+
+    //Manipulator Controls
+    manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
+    manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
+    manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
+    manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
+    
   }
 
   public double getSpeed() {
     double speed = driverStick.getY(Hand.kLeft);
-    if(Math.abs(speed) < 0.12) return 0;
+    if(Math.abs(speed) < 0.05) return 0;
     else return speed;
   }
 
   public double getRotation() {
     double rotation = -driverStick.getX(Hand.kRight);
-    if(Math.abs(rotation) < 0.11) return 0;
+    if(Math.abs(rotation) < 0.05) return 0;
     else return rotation;
   }
 

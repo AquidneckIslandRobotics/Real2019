@@ -27,12 +27,12 @@ public class StupidDrive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  CANSparkMax leftLeader = new CANSparkMax(RobotMap.leftLeader, MotorType.kBrushed);
-  CANSparkMax leftFollower1 = new CANSparkMax(RobotMap.leftFollower1, MotorType.kBrushed);
-  CANSparkMax leftFollower2 = new CANSparkMax(RobotMap.leftFollower2, MotorType.kBrushed);
-  CANSparkMax rightLeader = new CANSparkMax(RobotMap.rightLeader, MotorType.kBrushed);
-  CANSparkMax rightFollower1 = new CANSparkMax(RobotMap.rightFollower1, MotorType.kBrushed);
-  CANSparkMax rightFollower2 = new CANSparkMax(RobotMap.rightFollower2, MotorType.kBrushed);
+  CANSparkMax leftLeader = new CANSparkMax(RobotMap.leftLeader, MotorType.kBrushless);
+  CANSparkMax leftFollower1 = new CANSparkMax(RobotMap.leftFollower1, MotorType.kBrushless);
+  CANSparkMax leftFollower2 = new CANSparkMax(RobotMap.leftFollower2, MotorType.kBrushless);
+  CANSparkMax rightLeader = new CANSparkMax(RobotMap.rightLeader, MotorType.kBrushless);
+  CANSparkMax rightFollower1 = new CANSparkMax(RobotMap.rightFollower1, MotorType.kBrushless);
+  CANSparkMax rightFollower2 = new CANSparkMax(RobotMap.rightFollower2, MotorType.kBrushless);
 
   public static Encoder rightQuadEncoder = new Encoder(0, 1); 
   public static Encoder leftQuadEncoder = new Encoder(2, 3);
@@ -66,32 +66,40 @@ public class StupidDrive extends Subsystem {
   }
 
   public void cheesyDrive() {
-    diffDrive.curvatureDrive(Robot.m_oi.getSpeed(), Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
+
   public void inverseCheesyDrive() {
-    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed(), Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
+
   public void stopDriveMotors() {
     leftLeader.set(0);
     rightLeader.set(0);
   }
+
   public void setSpeed(double left, double right) {
     leftLeader.set(left);
     rightLeader.set(right);
   }
+
   public double getRightEncoder() {
     return rightQuadEncoder.getDistance(); 
   }
+
   public double getLeftEncoder() {
     return leftQuadEncoder.getDistance();
   }
+
   public void resetDriveEncoders() {
     leftQuadEncoder.reset();
     rightQuadEncoder.reset();
   }
+
   public double getAngle() {
     return gyro.getAngle();
   }
+  
   public void resetGyro() {
     gyro.reset();
   }
