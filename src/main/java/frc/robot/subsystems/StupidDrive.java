@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SensorType;
+import com.revrobotics.CANSparkMaxLowLevel.ConfigParameter;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -49,11 +51,14 @@ public class StupidDrive extends Subsystem {
     setDefaultCommand(new CheesyDrive());
   }
   public void initDriveControllers() {
+
     //Set followers
     leftFollower1.follow(leftLeader);
     leftFollower2.follow(leftLeader);
     rightFollower1.follow(rightLeader);
     rightFollower2.follow(rightLeader);
+
+    leftLeader.setParameter(ConfigParameter.kSensorType, 1);
 
     //Set to coast
     leftLeader.setIdleMode(IdleMode.kCoast);
@@ -63,15 +68,30 @@ public class StupidDrive extends Subsystem {
     rightFollower1.setIdleMode(IdleMode.kCoast);
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
+    leftLeader.setSmartCurrentLimit(40);
+    leftFollower1.setSmartCurrentLimit(40);
+    leftFollower2.setSmartCurrentLimit(40);
+    rightLeader.setSmartCurrentLimit(40);
+    rightFollower1.setSmartCurrentLimit(40);
+    rightFollower2.setSmartCurrentLimit(40);
+
   }
 
-  public void cheesyDrive() {
-    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+  public void cheesyDrive(double speedModifier) {
+    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
-  public void inverseCheesyDrive() {
-    diffDrive.curvatureDrive(Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+  public void inverseCheesyDrive(double speedModifier) {
+    diffDrive.curvatureDrive(Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
+
+  public void tankDrive(double lSpeed, double rSpeed) {
+    diffDrive.tankDrive(lSpeed, rSpeed);
+  }
+
+  // public void inverseTankDrive() {
+  //   diffDrive.tankDrive(Robot.m_oi.getDriverLeftY(), Robot.m_oi.getDriverRightY(), true);
+  // }
 
   public void stopDriveMotors() {
     leftLeader.set(0);

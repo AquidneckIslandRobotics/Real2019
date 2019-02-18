@@ -13,9 +13,16 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.ManualDownavatorControl;
+import frc.robot.commands.SetDownavatorPID;
 import frc.robot.commands.SetElevatorPID;
 import frc.robot.commands.ToggleDriveOrientation;
+import frc.robot.commands.ToggleHatchExtend;
+import frc.robot.commands.ToggleHatchGrip;
+import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.commands.TurnAbsolute;
+import frc.robot.commands.ManualDriveControl;
+import frc.robot.commands.RunIntake;
 import frc.robot.utilities.XboxTriggerButton;
 
 /**
@@ -37,6 +44,7 @@ public class OI {
   Button driverY = new JoystickButton(driverStick, 4);
   Button driverLB = new JoystickButton(driverStick, 5);
   Button driverRB = new JoystickButton(driverStick, 6);
+  Button driverBack = new JoystickButton(driverStick, 7);
   Button driverLT = new XboxTriggerButton(driverStick, Hand.kLeft, RobotMap.triggerDeadzone);
   Button driverRT = new XboxTriggerButton(driverStick, Hand.kRight, RobotMap.triggerDeadzone);
 
@@ -51,35 +59,82 @@ public class OI {
   Button manipulatorLT = new XboxTriggerButton(manipulatorStick, Hand.kLeft, RobotMap.triggerDeadzone);
   Button manipulatorRT = new XboxTriggerButton(manipulatorStick, Hand.kRight, RobotMap.triggerDeadzone);
 
+  XboxController testStick = new XboxController(2);
+  Button testA = new JoystickButton(testStick, 1);
+  Button testB = new JoystickButton(testStick, 2);
+  Button testX = new JoystickButton(testStick, 3);
+  Button testY = new JoystickButton(testStick, 4);
+  Button testLB = new JoystickButton(testStick, 5);
+  Button testRB = new JoystickButton(testStick, 6);
+
   public OI() {
     //Driver Controls
-    driverA.whenPressed(new DriveDistance(5));
-    driverB.whenPressed(new CheesyDrive());
-    driverX.whenPressed(new TurnAbsolute(45));
-    driverLB.whenPressed(new ToggleDriveOrientation());
-
+    // driverA.whenPressed(new DriveDistance(5));
+    // driverB.whenPressed(new CheesyDrive());
+    // driverX.whenPressed(new TurnAbsolute(45));
+    driverBack.whenPressed(new ToggleDriveOrientation());
+    driverA.whenPressed(new ToggleHatchExtend());
+    driverB.whenPressed(new ToggleHatchGrip());
+    driverRT.whenPressed(new ToggleHatchGrip());
+    driverLT.whileHeld(new RunIntake(driverStick, 2, true));
     //Manipulator Controls
     manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
     manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
     manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
     manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
+    manipulatorLB.whenPressed(new ToggleHatchExtend());
+    manipulatorLB.whenReleased(new ToggleHatchExtend());
+    manipulatorRB.whenPressed(new ToggleIntakeDeploy());
+    // manipulatorBack.whenPressed(new DeploySkis()); Does not exist yet
+    manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
+
+    testA.whileHeld(new ManualDownavatorControl(-0.25)); //-0.65 works well
+    testB.whileHeld(new SetDownavatorPID(-51000, 0.25));
+    testX.whileHeld(new SetDownavatorPID(-58000)); //-51000 for just over level, -61177 for top level
+    testY.whileHeld(new ManualDownavatorControl(1)); //0.25
+    testLB.whileHeld(new ManualDriveControl(0.25));
+    testRB.whileHeld(new ManualDriveControl(-0.2));
     
   }
 
   public double getSpeed() {
     double speed = driverStick.getY(Hand.kLeft);
-    if(Math.abs(speed) < 0.05) return 0;
-    else return speed;
+    if(Math.abs(speed) < 0.01) return 0;
+    else if(speed > 0) return Math.pow(speed, 2);
+    else return -Math.pow(speed, 2);
   }
 
   public double getRotation() {
     double rotation = -driverStick.getX(Hand.kRight);
-    if(Math.abs(rotation) < 0.05) return 0;
-    else return rotation;
+    if(Math.abs(rotation) < 0.01) return 0;
+    else if(rotation > 0) return Math.pow(rotation, 2);
+    else return -Math.pow(rotation, 2);
   }
 
   public boolean getQuickTurn() {
     return driverRB.get();
+  }
+
+  // public double getDriverLeftY() {
+  //   double leftY = driverStick.getY(Hand.kLeft);
+  //   if(Math.abs(leftY) < 0.01) return 0;
+  //   else return leftY;
+  // }
+
+  // public double getDriverRightY() {
+  //   double rightY = driverStick.getY(Hand.kRight);
+  //   if(Math.abs(rightY) < 0.01) return 0;
+  //   else return rightY;
+  // }
+
+  public double getManipulatorLeftY() {
+    double leftY = -manipulatorStick.getY(Hand.kLeft);
+    if(Math.abs(leftY) < 0.01) return 0;
+    else return leftY;
+  }
+
+  public boolean drivingFast() {
+    return driverLB.get();
   }
 
   

@@ -10,11 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class CheesyDrive extends Command {
-  public CheesyDrive() {
+public class ManualDriveControl extends Command {
+  double mSpeed;
+  public ManualDriveControl(double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.mDrive);
+    mSpeed = speed;
   }
 
   // Called just before this Command runs the first time
@@ -25,15 +27,7 @@ public class CheesyDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.m_oi.drivingFast()) {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(1);
-      else Robot.mDrive.inverseCheesyDrive(1);
-    } else {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.65);
-      else Robot.mDrive.inverseCheesyDrive(0.65);
-    }
-    // if(Robot.mDrive.drivingForwards) Robot.mDrive.tankDrive();
-    // else Robot.mDrive.inverseTankDrive();
+    Robot.mDrive.tankDrive(mSpeed, mSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

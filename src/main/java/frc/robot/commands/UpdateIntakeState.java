@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class CheesyDrive extends Command {
-  public CheesyDrive() {
+public class UpdateIntakeState extends Command {
+  public UpdateIntakeState() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.mDrive);
+    requires(Robot.mIntake);
   }
 
   // Called just before this Command runs the first time
@@ -25,15 +25,9 @@ public class CheesyDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.m_oi.drivingFast()) {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(1);
-      else Robot.mDrive.inverseCheesyDrive(1);
-    } else {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.65);
-      else Robot.mDrive.inverseCheesyDrive(0.65);
-    }
-    // if(Robot.mDrive.drivingForwards) Robot.mDrive.tankDrive();
-    // else Robot.mDrive.inverseTankDrive();
+    if(Robot.mIntake.isDeployed) Robot.mIntake.deployIntake();
+    else Robot.mIntake.retractIntake();
+    if(!Robot.mIntake.isRunning) Robot.mIntake.setIntake(0.1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -45,13 +39,11 @@ public class CheesyDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.mDrive.stopDriveMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

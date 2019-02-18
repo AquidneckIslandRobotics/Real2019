@@ -7,33 +7,39 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class CheesyDrive extends Command {
-  public CheesyDrive() {
+public class RunIntake extends Command {
+
+  private XboxController mStick;
+  private int mAxis;
+  private boolean mOuttake;
+
+  public RunIntake(XboxController stick, int axis, boolean outtake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.mDrive);
+    mStick = stick;
+    mAxis = axis;
+    mOuttake = outtake;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.mIntake.isRunning = true;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.m_oi.drivingFast()) {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(1);
-      else Robot.mDrive.inverseCheesyDrive(1);
-    } else {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.65);
-      else Robot.mDrive.inverseCheesyDrive(0.65);
-    }
-    // if(Robot.mDrive.drivingForwards) Robot.mDrive.tankDrive();
-    // else Robot.mDrive.inverseTankDrive();
+    double speed = Math.abs(mStick.getRawAxis(mAxis));
+    if(speed < 0.3) speed = 0;
+    if(mOuttake) Robot.mIntake.setIntake(-speed);
+    else Robot.mIntake.setIntake(speed);
+    SmartDashboard.putNumber("Intake Speed", speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -45,7 +51,8 @@ public class CheesyDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.mDrive.stopDriveMotors();
+    Robot.mIntake.stopIntake();
+    Robot.mIntake.isRunning = false;
   }
 
   // Called when another command which requires one or more of the same
