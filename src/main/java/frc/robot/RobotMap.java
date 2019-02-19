@@ -29,10 +29,44 @@ public class RobotMap {
   public static final int leftFollower1 = 2;
   public static final int leftFollower2 = 3;
   public static final int rightLeader = 4;
-  
   public static final int rightFollower1 = 5;
   public static final int rightFollower2 = 6;
 
+  //Elevator Motor
+  public static final int elevatorMotor = 9;
+
+  //Downavator Motors
+  public static final int downavatorLeader = 8;
+  public static final int downavatorFollower = 7;
+
+  //Intake Motor
+  public static final int intakeMotor = 6;
+
+  //Elevator Presets
+  public static final double intake = 0;
+  public static final double cargoShip = -11600;
+  public static final double lowRocket = -400;
+  public static final double midRocket = -18900;
+  public static final double highRocket = -37400;
+  public static final double upperLimit = -37400;
+
+  //Sensors
+  public static final int elevatorLowerLimitSwitch = 4;//0;
+  public static final int elevatorUpperLimitSwitch = 5;//1;
+
+  //Solenoids
+  public static final int intakeForwardChannel = 3;
+  public static final int intakeReverseChannel = 2;
+  public static final int hatchExtenderForwardChannel = 4;
+  public static final int hatchExtenderReverseChannel = 1;
+  public static final int hatchGripperForwardChannel = 5;
+  public static final int hatchGripperReverseChannel = 0;
+
+
   //Constants
   public static final double feetToClicks = (1024) / (0.5 * Math.PI);
+  public static final double pixelsToDegrees = 0.0953125;
+  public static final double cameraCenter = 319.5;
+  public static final double focalLength = 554.256;
+  public static final double triggerDeadzone = 0.05;
 }

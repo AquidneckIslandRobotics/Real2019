@@ -7,14 +7,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveDistance;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Downavator;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Hatch;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StupidDrive;
+import frc.robot.subsystems.Vision;
+
+import frc.robot.commands.autos.CenterAuto;
+import frc.robot.commands.autos.RightRocket;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,7 +32,13 @@ import frc.robot.subsystems.StupidDrive;
  */
 public class Robot extends TimedRobot {
   public static StupidDrive mDrive = new StupidDrive();
+  public static Vision mVision = new Vision();
+  public static Elevator mElevator = new Elevator();
+  public static Downavator mDownavator = new Downavator();
+  public static Intake mIntake = new Intake();
+  public static Hatch mHatch = new Hatch();
   public static OI m_oi;
+  public static Compressor mCompressor = new Compressor();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -38,11 +51,17 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     // mDrive = new StupidDrive();
-
     mDrive.initDriveControllers();
     mDrive.resetDriveEncoders();
     mDrive.resetGyro();
-    // chooser.addOption("My Auto", new MyAutoCommand());
+    mElevator.initElevatorController();
+    mElevator.resetElevatorEncoder();
+    mDownavator.initDownavatorControllers();
+    mDownavator.resetDownavatorEncoder();
+    mIntake.initIntakeController();
+    
+    m_chooser.addOption("Center Auto", new CenterAuto());
+    m_chooser.addOption("Right Rocket", new RightRocket());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
@@ -135,6 +154,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Angle", mDrive.gyro.getAngle());
     SmartDashboard.putNumber("pidGet() Gyro", mDrive.gyro.pidGet());
     SmartDashboard.putBoolean("drivingForwards", mDrive.drivingForwards);
+    SmartDashboard.putNumber("Vision X", mVision.getAverageX());
+    SmartDashboard.putNumber("Vision Angle", mVision.getVisionAngle());
+    SmartDashboard.putNumber("Downa Encoder", mDownavator.getDownavatorEncoder());
+    SmartDashboard.putNumber("Ele Encoder", mElevator.getElevatorEncoder());
+    SmartDashboard.putBoolean("Ele CanLower", mElevator.canLower());
+    SmartDashboard.putBoolean("Ele CanRaise", mElevator.canRaise());
+
+    if(!mElevator.canLower()) mElevator.resetElevatorEncoder();
   }
 
   /**

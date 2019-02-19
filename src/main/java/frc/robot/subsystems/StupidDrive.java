@@ -4,12 +4,14 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+//TEST COMMENT
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SensorType;
+import com.revrobotics.CANSparkMaxLowLevel.ConfigParameter;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -27,12 +29,12 @@ public class StupidDrive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  CANSparkMax leftLeader = new CANSparkMax(RobotMap.leftLeader, MotorType.kBrushed);
-  CANSparkMax leftFollower1 = new CANSparkMax(RobotMap.leftFollower1, MotorType.kBrushed);
-  CANSparkMax leftFollower2 = new CANSparkMax(RobotMap.leftFollower2, MotorType.kBrushed);
-  CANSparkMax rightLeader = new CANSparkMax(RobotMap.rightLeader, MotorType.kBrushed);
-  CANSparkMax rightFollower1 = new CANSparkMax(RobotMap.rightFollower1, MotorType.kBrushed);
-  CANSparkMax rightFollower2 = new CANSparkMax(RobotMap.rightFollower2, MotorType.kBrushed);
+  CANSparkMax leftLeader = new CANSparkMax(RobotMap.leftLeader, MotorType.kBrushless);
+  CANSparkMax leftFollower1 = new CANSparkMax(RobotMap.leftFollower1, MotorType.kBrushless);
+  CANSparkMax leftFollower2 = new CANSparkMax(RobotMap.leftFollower2, MotorType.kBrushless);
+  CANSparkMax rightLeader = new CANSparkMax(RobotMap.rightLeader, MotorType.kBrushless);
+  CANSparkMax rightFollower1 = new CANSparkMax(RobotMap.rightFollower1, MotorType.kBrushless);
+  CANSparkMax rightFollower2 = new CANSparkMax(RobotMap.rightFollower2, MotorType.kBrushless);
 
   public static Encoder rightQuadEncoder = new Encoder(0, 1); 
   public static Encoder leftQuadEncoder = new Encoder(2, 3);
@@ -49,11 +51,14 @@ public class StupidDrive extends Subsystem {
     setDefaultCommand(new CheesyDrive());
   }
   public void initDriveControllers() {
+
     //Set followers
     leftFollower1.follow(leftLeader);
     leftFollower2.follow(leftLeader);
     rightFollower1.follow(rightLeader);
     rightFollower2.follow(rightLeader);
+
+    leftLeader.setParameter(ConfigParameter.kSensorType, 1);
 
     //Set to coast
     leftLeader.setIdleMode(IdleMode.kCoast);
@@ -63,35 +68,58 @@ public class StupidDrive extends Subsystem {
     rightFollower1.setIdleMode(IdleMode.kCoast);
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
+    leftLeader.setSmartCurrentLimit(40);
+    leftFollower1.setSmartCurrentLimit(40);
+    leftFollower2.setSmartCurrentLimit(40);
+    rightLeader.setSmartCurrentLimit(40);
+    rightFollower1.setSmartCurrentLimit(40);
+    rightFollower2.setSmartCurrentLimit(40);
+
   }
 
-  public void cheesyDrive() {
-    diffDrive.curvatureDrive(Robot.m_oi.getSpeed(), Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+  public void cheesyDrive(double speedModifier) {
+    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
-  public void inverseCheesyDrive() {
-    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed(), Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+
+  public void inverseCheesyDrive(double speedModifier) {
+    diffDrive.curvatureDrive(Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
+
+  public void tankDrive(double lSpeed, double rSpeed) {
+    diffDrive.tankDrive(lSpeed, rSpeed);
+  }
+
+  // public void inverseTankDrive() {
+  //   diffDrive.tankDrive(Robot.m_oi.getDriverLeftY(), Robot.m_oi.getDriverRightY(), true);
+  // }
+
   public void stopDriveMotors() {
     leftLeader.set(0);
     rightLeader.set(0);
   }
+
   public void setSpeed(double left, double right) {
     leftLeader.set(left);
     rightLeader.set(right);
   }
+
   public double getRightEncoder() {
     return rightQuadEncoder.getDistance(); 
   }
+
   public double getLeftEncoder() {
     return leftQuadEncoder.getDistance();
   }
+
   public void resetDriveEncoders() {
     leftQuadEncoder.reset();
     rightQuadEncoder.reset();
   }
+
   public double getAngle() {
     return gyro.getAngle();
   }
+  
   public void resetGyro() {
     gyro.reset();
   }

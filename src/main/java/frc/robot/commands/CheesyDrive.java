@@ -25,8 +25,15 @@ public class CheesyDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive();
-    else Robot.mDrive.inverseCheesyDrive();
+    if(Robot.m_oi.drivingFast()) {
+      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(1);
+      else Robot.mDrive.inverseCheesyDrive(1);
+    } else {
+      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.65);
+      else Robot.mDrive.inverseCheesyDrive(0.65);
+    }
+    // if(Robot.mDrive.drivingForwards) Robot.mDrive.tankDrive();
+    // else Robot.mDrive.inverseTankDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()

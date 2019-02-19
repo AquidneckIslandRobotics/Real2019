@@ -45,11 +45,11 @@ public class DriveDistance extends Command {
     Robot.mDrive.resetDriveEncoders();
     leftDrivePID.setAbsoluteTolerance(40);
     leftDrivePID.setContinuous(false);
-    leftDrivePID.setOutputRange(-1, 1);
+    leftDrivePID.setOutputRange(-0.5, 0.5);
     leftDrivePID.setSetpoint(mTargetClicks);
     rightDrivePID.setAbsoluteTolerance(40);
     rightDrivePID.setContinuous(false);
-    rightDrivePID.setOutputRange(-1, 1);
+    rightDrivePID.setOutputRange(-0.5, 0.5);
     rightDrivePID.setSetpoint(mTargetClicks);
     SmartDashboard.putNumber("Target Clicks (L)", leftDrivePID.getSetpoint());
     leftDrivePID.enable();
@@ -60,8 +60,8 @@ public class DriveDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double lSpeed = leftSpeedOutput.getSpeed();
-    double rSpeed = -rightSpeedOutput.getSpeed();
+    double lSpeed = -leftSpeedOutput.getSpeed();
+    double rSpeed = rightSpeedOutput.getSpeed();
     Robot.mDrive.setSpeed(lSpeed, rSpeed);
     // SmartDashboard.putNumber("lSpeed", lSpeed);
     // SmartDashboard.putNumber("rSpeed", rSpeed);

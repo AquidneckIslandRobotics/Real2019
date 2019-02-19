@@ -7,67 +7,48 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.utilities.SpeedOutput;
 
-public class TurnAbsolute extends Command {
+public class UpdateHatchState extends Command {
 
-  public PIDController turnController;
-  public SpeedOutput turnOutput;
-  private double mTargetDegrees;
-  private Timer mTimer;
+  
 
-  public TurnAbsolute(double targetDegrees) {
+  public UpdateHatchState() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.mDrive);
-    turnOutput = new SpeedOutput();
-    turnController = new PIDController(0.027, 0, 0.0, Robot.mDrive.gyro, turnOutput);
-    mTimer = new Timer();
-    mTargetDegrees = targetDegrees;
+    requires(Robot.mHatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    turnController.setAbsoluteTolerance(1.5);
-    turnController.setInputRange(-180, 180);
-    turnController.setContinuous(true);
-    turnController.setOutputRange(-1, 1);
-    turnController.setSetpoint(mTargetDegrees);
-    turnController.enable();
-    mTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = turnOutput.getSpeed();
-    Robot.mDrive.setSpeed(speed, speed);
+    if(Robot.mHatch.isExtended) Robot.mHatch.extendHatch();
+    else Robot.mHatch.retractHatch();
+    
+    if(Robot.mHatch.isGripped) Robot.mHatch.gripHatch();
+    else Robot.mHatch.releaseHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(!turnController.onTarget()) mTimer.reset();
-    if(mTimer.get() > 0.35) return true;
-    else return false;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    turnController.disable();
-    Robot.mDrive.stopDriveMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

@@ -7,61 +7,52 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.utilities.SpeedOutput;
 
-public class TurnAbsolute extends Command {
+public class RunIntake extends Command {
 
-  public PIDController turnController;
-  public SpeedOutput turnOutput;
-  private double mTargetDegrees;
-  private Timer mTimer;
+  private XboxController mStick;
+  private int mAxis;
+  private boolean mOuttake;
 
-  public TurnAbsolute(double targetDegrees) {
+  public RunIntake(XboxController stick, int axis, boolean outtake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.mDrive);
-    turnOutput = new SpeedOutput();
-    turnController = new PIDController(0.027, 0, 0.0, Robot.mDrive.gyro, turnOutput);
-    mTimer = new Timer();
-    mTargetDegrees = targetDegrees;
+    mStick = stick;
+    mAxis = axis;
+    mOuttake = outtake;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    turnController.setAbsoluteTolerance(1.5);
-    turnController.setInputRange(-180, 180);
-    turnController.setContinuous(true);
-    turnController.setOutputRange(-1, 1);
-    turnController.setSetpoint(mTargetDegrees);
-    turnController.enable();
-    mTimer.start();
+    Robot.mIntake.isRunning = true;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = turnOutput.getSpeed();
-    Robot.mDrive.setSpeed(speed, speed);
+    double speed = Math.abs(mStick.getRawAxis(mAxis));
+    if(speed < 0.3) speed = 0;
+    if(mOuttake) Robot.mIntake.setIntake(-speed);
+    else Robot.mIntake.setIntake(speed);
+    SmartDashboard.putNumber("Intake Speed", speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(!turnController.onTarget()) mTimer.reset();
-    if(mTimer.get() > 0.35) return true;
-    else return false;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    turnController.disable();
-    Robot.mDrive.stopDriveMotors();
+    Robot.mIntake.stopIntake();
+    Robot.mIntake.isRunning = false;
   }
 
   // Called when another command which requires one or more of the same
