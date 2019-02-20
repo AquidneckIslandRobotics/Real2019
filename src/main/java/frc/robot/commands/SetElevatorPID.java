@@ -30,7 +30,7 @@ public class SetElevatorPID extends Command {
     requires(Robot.mElevator);
     elevatorEncoderSource = new TalonPIDSource(Robot.mElevator.elevator);
     elevatorOutput = new SpeedOutput();
-    elevatorController = new PIDController(0.00009, 0.0, 0.0, elevatorEncoderSource, elevatorOutput);
+    elevatorController = new PIDController(0.00025, 0.0, 0.00025, elevatorEncoderSource, elevatorOutput);
     mTarget = target;
     mMaxSpeed = 1;
   }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class UpdateIntakeState extends Command {
@@ -25,9 +26,22 @@ public class UpdateIntakeState extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    SmartDashboard.putNumber("Intake Current", Robot.mIntake.intake.getOutputCurrent());
+
+    //Detect cargo
+    if(Robot.mIntake.intake.getOutputCurrent() > 20) Robot.mIntake.hasCargo = true;
+    else Robot.mIntake.hasCargo = false;
+
+    //Deploy and retract as needed
     if(Robot.mIntake.isDeployed) Robot.mIntake.deployIntake();
     else Robot.mIntake.retractIntake();
-    if(!Robot.mIntake.isRunning) Robot.mIntake.setIntake(0.1);
+
+    //Hold cargo as needed
+    if(Robot.mIntake.hasCargo) Robot.mIntake.setIntake(0.1);
+
+    //Run intake as needed
+    if(!Robot.mIntake.hasCargo && Robot.mIntake.isIntaking) Robot.mIntake.setIntake(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()

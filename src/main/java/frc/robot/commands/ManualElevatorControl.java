@@ -27,7 +27,7 @@ public class ManualElevatorControl extends Command {
   @Override
   protected void execute() {
     Robot.mElevator.setElevator(Robot.m_oi.getManipulatorLeftY());
-    SmartDashboard.putNumber("Ele Speed", Robot.m_oi.getManipulatorLeftY());
+    SmartDashboard.putNumber("Ele Speed", Robot.m_oi.getManipulatorRightY());
   }
 
   // Make this return true when this Command no longer needs to run execute()

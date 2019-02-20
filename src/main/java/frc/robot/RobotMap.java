@@ -44,24 +44,24 @@ public class RobotMap {
 
   //Elevator Presets
   public static final double intake = 0;
-  public static final double cargoShip = -11600;
-  public static final double lowRocket = -400;
-  public static final double midRocket = -18900;
-  public static final double highRocket = -37400;
-  public static final double upperLimit = -37400;
+  public static final double cargoShip = -14500;
+  public static final double lowRocket = -2300;
+  public static final double midRocket = -22300;
+  public static final double highRocket = -38400;
+  public static final double upperLimit = -38400;
+
 
   //Sensors
   public static final int elevatorLowerLimitSwitch = 4;//0;
   public static final int elevatorUpperLimitSwitch = 5;//1;
 
   //Solenoids
-  public static final int intakeForwardChannel = 3;
+  public static final int intakeForwardChannel = 6; //used to be 6, switched mechanically
   public static final int intakeReverseChannel = 2;
   public static final int hatchExtenderForwardChannel = 4;
   public static final int hatchExtenderReverseChannel = 1;
   public static final int hatchGripperForwardChannel = 5;
-  public static final int hatchGripperReverseChannel = 0;
-
+  public static final int hatchGripperReverseChannel = 0; 
 
   //Constants
   public static final double feetToClicks = (1024) / (0.5 * Math.PI);

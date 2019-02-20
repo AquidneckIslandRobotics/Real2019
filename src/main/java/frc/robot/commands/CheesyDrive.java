@@ -29,7 +29,7 @@ public class CheesyDrive extends Command {
       if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(1);
       else Robot.mDrive.inverseCheesyDrive(1);
     } else {
-      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.65);
+      if(Robot.mDrive.drivingForwards) Robot.mDrive.cheesyDrive(0.5);
       else Robot.mDrive.inverseCheesyDrive(0.65);
     }
     // if(Robot.mDrive.drivingForwards) Robot.mDrive.tankDrive();

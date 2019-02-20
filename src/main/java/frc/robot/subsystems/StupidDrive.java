@@ -68,21 +68,21 @@ public class StupidDrive extends Subsystem {
     rightFollower1.setIdleMode(IdleMode.kCoast);
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
-    leftLeader.setSmartCurrentLimit(40);
-    leftFollower1.setSmartCurrentLimit(40);
-    leftFollower2.setSmartCurrentLimit(40);
-    rightLeader.setSmartCurrentLimit(40);
-    rightFollower1.setSmartCurrentLimit(40);
-    rightFollower2.setSmartCurrentLimit(40);
+    leftLeader.setSmartCurrentLimit(35);
+    leftFollower1.setSmartCurrentLimit(35);
+    leftFollower2.setSmartCurrentLimit(35);
+    rightLeader.setSmartCurrentLimit(35);
+    rightFollower1.setSmartCurrentLimit(35);
+    rightFollower2.setSmartCurrentLimit(35);
 
   }
 
   public void cheesyDrive(double speedModifier) {
-    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed() * .5, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
   public void inverseCheesyDrive(double speedModifier) {
-    diffDrive.curvatureDrive(Robot.m_oi.getSpeed() * speedModifier, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(Robot.m_oi.getSpeed() * .5, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
   public void tankDrive(double lSpeed, double rSpeed) {

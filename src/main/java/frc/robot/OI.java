@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.ExtendHatch;
 import frc.robot.commands.ManualDownavatorControl;
 import frc.robot.commands.SetDownavatorPID;
 import frc.robot.commands.SetElevatorPID;
@@ -22,6 +23,7 @@ import frc.robot.commands.ToggleHatchGrip;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.commands.TurnAbsolute;
 import frc.robot.commands.ManualDriveControl;
+import frc.robot.commands.RetractHatch;
 import frc.robot.commands.RunIntake;
 import frc.robot.utilities.XboxTriggerButton;
 
@@ -72,9 +74,10 @@ public class OI {
     // driverA.whenPressed(new DriveDistance(5));
     // driverB.whenPressed(new CheesyDrive());
     // driverX.whenPressed(new TurnAbsolute(45));
-    driverBack.whenPressed(new ToggleDriveOrientation());
+    driverLB.whenPressed(new ToggleDriveOrientation());
     driverA.whenPressed(new ToggleHatchExtend());
     driverB.whenPressed(new ToggleHatchGrip());
+    driverX.whileHeld(new ManualDriveControl(0.6));
     driverRT.whenPressed(new ToggleHatchGrip());
     driverLT.whileHeld(new RunIntake(driverStick, 2, true));
     //Manipulator Controls
@@ -82,11 +85,12 @@ public class OI {
     manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
     manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
     manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
-    manipulatorLB.whenPressed(new ToggleHatchExtend());
-    manipulatorLB.whenReleased(new ToggleHatchExtend());
-    manipulatorRB.whenPressed(new ToggleIntakeDeploy());
-    // manipulatorBack.whenPressed(new DeploySkis()); Does not exist yet
+    manipulatorLB.whenPressed(new ExtendHatch());
+    manipulatorLB.whenReleased(new RetractHatch());
+    manipulatorRB.whenPressed(new ToggleHatchGrip());
+    manipulatorLT.whenPressed(new ToggleIntakeDeploy());
     manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
+    // manipulatorBack.whenPressed(new DeploySkis()); Does not exist yet
 
     testA.whileHeld(new ManualDownavatorControl(-0.25)); //-0.65 works well
     testB.whileHeld(new SetDownavatorPID(-51000, 0.25));
@@ -131,6 +135,12 @@ public class OI {
     double leftY = -manipulatorStick.getY(Hand.kLeft);
     if(Math.abs(leftY) < 0.01) return 0;
     else return leftY;
+  }
+
+  public double getManipulatorRightY() {
+    double rightY = -manipulatorStick.getY(Hand.kRight);
+    if(Math.abs(rightY) < 0.01) return 0;
+    else return rightY;
   }
 
   public boolean drivingFast() {

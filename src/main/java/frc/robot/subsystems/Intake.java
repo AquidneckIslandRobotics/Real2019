@@ -26,6 +26,9 @@ public class Intake extends Subsystem {
 
   public boolean isDeployed = false;
   public boolean isRunning = false;
+  public boolean hasCargo = false;
+  public boolean isIntaking = false;
+  public double intakeSpeed = 0;
 
   public TalonSRX intake = new TalonSRX(RobotMap.intakeMotor);
   public DoubleSolenoid intakeActuator = new DoubleSolenoid(RobotMap.intakeForwardChannel, RobotMap.intakeReverseChannel);

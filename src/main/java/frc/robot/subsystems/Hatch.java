@@ -21,7 +21,7 @@ public class Hatch extends Subsystem {
   // here. Call these from Commands.
 
   public boolean isExtended = false;
-  public boolean isGripped = false;
+  public boolean isGripped = true;
 
   public DoubleSolenoid hatchExtender = new DoubleSolenoid(RobotMap.hatchExtenderForwardChannel, RobotMap.hatchExtenderReverseChannel);
   public DoubleSolenoid hatchGripper = new DoubleSolenoid(RobotMap.hatchGripperForwardChannel, RobotMap.hatchGripperReverseChannel);
