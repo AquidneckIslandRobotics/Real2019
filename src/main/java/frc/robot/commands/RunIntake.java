@@ -36,7 +36,7 @@ public class RunIntake extends Command {
   @Override
   protected void execute() {
     double speed = Math.abs(mStick.getRawAxis(mAxis));
-    // if(speed < 0.3) speed = 0;
+    if(speed < 0.3) speed = 0;
     if(mOuttake) Robot.mIntake.setIntake(-speed);
     else Robot.mIntake.setIntake(speed);
     SmartDashboard.putNumber("Intake Speed", speed);
@@ -53,6 +53,7 @@ public class RunIntake extends Command {
   protected void end() {
     Robot.mIntake.stopIntake();
     Robot.mIntake.isRunning = false;
+    if(mOuttake) Robot.mIntake.hasCargo = false;
   }
 
   // Called when another command which requires one or more of the same

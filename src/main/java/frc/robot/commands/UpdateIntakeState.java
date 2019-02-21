@@ -30,7 +30,8 @@ public class UpdateIntakeState extends Command {
     SmartDashboard.putNumber("Intake Current", Robot.mIntake.intake.getOutputCurrent());
 
     //Detect cargo
-    if(Robot.mIntake.intake.getOutputCurrent() > 20) Robot.mIntake.hasCargo = true;
+    if(!Robot.mIntake.hasCargo && Robot.mIntake.intake.getOutputCurrent() > 25 && Robot.mIntake.isIntaking)
+      Robot.mIntake.hasCargo = true;
     else Robot.mIntake.hasCargo = false;
 
     //Deploy and retract as needed

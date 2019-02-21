@@ -82,9 +82,13 @@ public class OI {
     driverLT.whileHeld(new RunIntake(driverStick, 2, true));
     //Manipulator Controls
     manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
+    manipulatorA.whenReleased(new SetElevatorPID(RobotMap.intake));
     manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
+    manipulatorB.whenReleased(new SetElevatorPID(RobotMap.intake));
     manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
+    manipulatorX.whenReleased(new SetElevatorPID(RobotMap.intake));
     manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
+    manipulatorY.whenReleased(new SetElevatorPID(RobotMap.intake));
     manipulatorLB.whenPressed(new ExtendHatch());
     manipulatorLB.whenReleased(new RetractHatch());
     manipulatorRB.whenPressed(new ToggleHatchGrip());
