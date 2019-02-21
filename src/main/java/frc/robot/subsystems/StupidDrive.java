@@ -68,12 +68,12 @@ public class StupidDrive extends Subsystem {
     rightFollower1.setIdleMode(IdleMode.kCoast);
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
-    leftLeader.setSmartCurrentLimit(35);
-    leftFollower1.setSmartCurrentLimit(35);
-    leftFollower2.setSmartCurrentLimit(35);
-    rightLeader.setSmartCurrentLimit(35);
-    rightFollower1.setSmartCurrentLimit(35);
-    rightFollower2.setSmartCurrentLimit(35);
+    leftLeader.setSmartCurrentLimit(40);
+    leftFollower1.setSmartCurrentLimit(40);
+    leftFollower2.setSmartCurrentLimit(40);
+    rightLeader.setSmartCurrentLimit(40);
+    rightFollower1.setSmartCurrentLimit(40);
+    rightFollower2.setSmartCurrentLimit(40);
 
   }
 
