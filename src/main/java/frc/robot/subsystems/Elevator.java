@@ -27,6 +27,10 @@ public class Elevator extends Subsystem {
   public TalonSRX elevator = new TalonSRX(RobotMap.elevatorMotor);
   public DigitalInput lowerLimitSwitch = new DigitalInput(RobotMap.elevatorLowerLimitSwitch);
   public DigitalInput upperLimitSwitch = new DigitalInput(RobotMap.elevatorUpperLimitSwitch);
+  public enum Preset {
+    INTAKE, CARGOSHIP, LOWROCKET, MIDROCKET, HIGHROCKET;
+  }
+  public Preset currentPreset = Preset.INTAKE;
 
   @Override
   public void initDefaultCommand() {
