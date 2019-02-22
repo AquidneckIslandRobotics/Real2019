@@ -36,8 +36,8 @@ public class StupidDrive extends Subsystem {
   CANSparkMax rightFollower1 = new CANSparkMax(RobotMap.rightFollower1, MotorType.kBrushless);
   CANSparkMax rightFollower2 = new CANSparkMax(RobotMap.rightFollower2, MotorType.kBrushless);
 
-  public static Encoder rightQuadEncoder = new Encoder(0, 1); 
-  public static Encoder leftQuadEncoder = new Encoder(2, 3);
+  public Encoder rightQuadEncoder = new Encoder(0, 1); 
+  public Encoder leftQuadEncoder = new Encoder(2, 3);
   public AHRS gyro = new AHRS(Port.kMXP);
 
   DifferentialDrive diffDrive = new DifferentialDrive(leftLeader, rightLeader);
