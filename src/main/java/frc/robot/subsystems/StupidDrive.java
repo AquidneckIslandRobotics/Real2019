@@ -68,6 +68,11 @@ public class StupidDrive extends Subsystem {
     rightFollower1.setIdleMode(IdleMode.kCoast);
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
+    //Limit acceleration
+    leftLeader.setOpenLoopRampRate(1);
+    rightLeader.setOpenLoopRampRate(1);
+
+    //Limit current draw
     leftLeader.setSmartCurrentLimit(40);
     leftFollower1.setSmartCurrentLimit(40);
     leftFollower2.setSmartCurrentLimit(40);
