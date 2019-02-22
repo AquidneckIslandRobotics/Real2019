@@ -59,7 +59,6 @@ public class SetElevatorPID extends Command {
   protected void execute() {
     double speed = -elevatorOutput.getSpeed(); //Encoder goes negative as ele goes up, but positive power is needed to go up
     Robot.mElevator.setElevator(speed);
-    SmartDashboard.putNumber("Ele PID Speed", speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
