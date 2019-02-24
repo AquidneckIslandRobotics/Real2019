@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SensorType;
 import com.revrobotics.CANSparkMaxLowLevel.ConfigParameter;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -58,7 +57,7 @@ public class StupidDrive extends Subsystem {
     rightFollower1.follow(rightLeader);
     rightFollower2.follow(rightLeader);
 
-    leftLeader.setParameter(ConfigParameter.kSensorType, 1);
+    // leftLeader.setParameter(ConfigParameter.kSensorType, 1); Sets sensor type to hall effect, shouldn't be necessary
 
     //Set to coast
     leftLeader.setIdleMode(IdleMode.kCoast);

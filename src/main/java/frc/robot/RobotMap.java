@@ -56,12 +56,14 @@ public class RobotMap {
   public static final int elevatorUpperLimitSwitch = 5;//1;
 
   //Solenoids
-  public static final int intakeForwardChannel = 6; //used to be 6, switched mechanically
+  public static final int intakeForwardChannel = 6;
   public static final int intakeReverseChannel = 2;
   public static final int hatchExtenderForwardChannel = 4;
   public static final int hatchExtenderReverseChannel = 1;
   public static final int hatchGripperForwardChannel = 5;
-  public static final int hatchGripperReverseChannel = 0; 
+  public static final int hatchGripperReverseChannel = 0;
+  public static final int skisForwardChannel = 7;
+  public static final int skisReverseChannel = 3;
 
   //Constants
   public static final double feetToClicks = (1024) / (0.5 * Math.PI);

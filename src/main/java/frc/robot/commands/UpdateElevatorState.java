@@ -49,6 +49,13 @@ public class UpdateElevatorState extends Command {
 
     if(!Robot.mElevator.canLower()) Robot.mElevator.resetElevatorEncoder();
     
+    if(Math.abs(Robot.m_oi.getManipulatorRightY()) > 0.01) {
+      elevatorController.disable();
+      Robot.mElevator.setElevator(Robot.m_oi.getManipulatorRightY());
+    } else if(!elevatorController.isEnabled()) {
+      elevatorController.enable();
+    }
+
     switch(Robot.mElevator.currentPreset) {
       case INTAKE: mSetpoint = RobotMap.intake;
       break;
@@ -62,7 +69,11 @@ public class UpdateElevatorState extends Command {
       break;
     }
 
-    SmartDashboard.putNumber("", elevatorOutput.getSpeed());
+    elevatorController.setSetpoint(mSetpoint);
+
+    SmartDashboard.putNumber("Ele PID Ouptut", elevatorOutput.getSpeed());
+    if(elevatorController.isEnabled()) Robot.mElevator.setElevator(elevatorOutput.getSpeed());
+    SmartDashboard.putNumber("Manipulator RY", Robot.m_oi.getManipulatorRightY());
 
   }
 

@@ -17,6 +17,7 @@ import frc.robot.subsystems.Downavator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Skis;
 import frc.robot.subsystems.StupidDrive;
 import frc.robot.subsystems.Vision;
 
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
   public static Downavator mDownavator = new Downavator();
   public static Intake mIntake = new Intake();
   public static Hatch mHatch = new Hatch();
+  public static Skis mSkis = new Skis();
   public static OI m_oi;
   public static Compressor mCompressor = new Compressor();
 
