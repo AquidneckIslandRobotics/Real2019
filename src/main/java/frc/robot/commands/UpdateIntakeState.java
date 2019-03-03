@@ -7,20 +7,24 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class UpdateIntakeState extends Command {
+  private Timer mTimer;
   public UpdateIntakeState() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.mIntake);
+    mTimer = new Timer();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    mTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -29,9 +33,13 @@ public class UpdateIntakeState extends Command {
 
     SmartDashboard.putNumber("Intake Current", Robot.mIntake.intake.getOutputCurrent());
 
+    SmartDashboard.putBoolean("hasCargo", Robot.mIntake.hasCargo);
+    SmartDashboard.putBoolean("isIntaking", Robot.mIntake.isIntaking);
+    SmartDashboard.putBoolean("isRunning", Robot.mIntake.isRunning);
+
     //Detect cargo
-    if(!Robot.mIntake.hasCargo && Robot.mIntake.intake.getOutputCurrent() > 25)
-      Robot.mIntake.hasCargo = true;
+    // if(!Robot.mIntake.hasCargo && Robot.mIntake.intake.getOutputCurrent() > 60)
+    //   Robot.mIntake.hasCargo = true;
     // else Robot.mIntake.hasCargo = false;
 
     //Deploy and retract as needed

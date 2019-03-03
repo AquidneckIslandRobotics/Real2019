@@ -7,13 +7,16 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class AutoIntake extends Command {
+  private Timer mTimer;
   public AutoIntake() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    mTimer = new Timer();
   }
 
   // Called just before this Command runs the first time
@@ -21,12 +24,15 @@ public class AutoIntake extends Command {
   protected void initialize() {
     Robot.mIntake.isDeployed = true;
     Robot.mIntake.isIntaking = true;
+    mTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     // Robot.mIntake.setIntake(1);
+    if(!Robot.mIntake.hasCargo && Robot.mIntake.intake.getOutputCurrent() > 30 && mTimer.get() > 0.5)
+      Robot.mIntake.hasCargo = true;
   }
 
   // Make this return true when this Command no longer needs to run execute()

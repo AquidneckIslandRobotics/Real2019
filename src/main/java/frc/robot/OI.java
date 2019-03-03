@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.DeploySkis;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExtendHatch;
 import frc.robot.commands.ManualDownavatorControl;
@@ -63,13 +65,14 @@ public class OI {
   Button manipulatorLT = new XboxTriggerButton(manipulatorStick, Hand.kLeft, RobotMap.triggerDeadzone);
   Button manipulatorRT = new XboxTriggerButton(manipulatorStick, Hand.kRight, RobotMap.triggerDeadzone);
 
-  XboxController testStick = new XboxController(2);
-  Button testA = new JoystickButton(testStick, 1);
-  Button testB = new JoystickButton(testStick, 2);
-  Button testX = new JoystickButton(testStick, 3);
-  Button testY = new JoystickButton(testStick, 4);
-  Button testLB = new JoystickButton(testStick, 5);
-  Button testRB = new JoystickButton(testStick, 6);
+  XboxController endgameStick = new XboxController(2);
+  Button endgameA = new JoystickButton(endgameStick, 1);
+  Button endgameB = new JoystickButton(endgameStick, 2);
+  Button endgameX = new JoystickButton(endgameStick, 3);
+  Button endgameY = new JoystickButton(endgameStick, 4);
+  Button endgameLB = new JoystickButton(endgameStick, 5);
+  Button endgameRB = new JoystickButton(endgameStick, 6);
+  Button endgameBack = new JoystickButton(endgameStick, 7);
 
   public OI() {
     //Driver Controls
@@ -79,39 +82,47 @@ public class OI {
     driverLB.whenPressed(new ToggleDriveOrientation());
     driverA.whenPressed(new ToggleHatchExtend());
     driverB.whenPressed(new ToggleHatchGrip());
-    driverX.whileHeld(new ManualDriveControl(0.6));
+    driverX.whileHeld(new ManualDriveControl(0.25));
     driverRT.whenPressed(new ToggleHatchGrip());
     driverLT.whileHeld(new RunIntake(driverStick, 2, true));
     //Manipulator Controls
-    // manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
-    // manipulatorA.whenReleased(new SetElevatorPID(RobotMap.intake));
-    // manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
-    // manipulatorB.whenReleased(new SetElevatorPID(RobotMap.intake));
-    // manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
-    // manipulatorX.whenReleased(new SetElevatorPID(RobotMap.intake));
-    // manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
-    // manipulatorY.whenReleased(new SetElevatorPID(RobotMap.intake));
-    manipulatorA.whenPressed(new SetElevatorPosition(Preset.LOWROCKET));
-    manipulatorA.whenReleased(new SetElevatorPosition(Preset.INTAKE));
-    manipulatorB.whenPressed(new SetElevatorPosition(Preset.MIDROCKET));
-    manipulatorB.whenReleased(new SetElevatorPosition(Preset.INTAKE));
-    manipulatorX.whenPressed(new SetElevatorPosition(Preset.CARGOSHIP));
-    manipulatorX.whenReleased(new SetElevatorPosition(Preset.INTAKE));
-    manipulatorY.whenPressed(new SetElevatorPosition(Preset.HIGHROCKET));
-    manipulatorY.whenReleased(new SetElevatorPosition(Preset.INTAKE));
+    manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
+    manipulatorA.whenReleased(new SetElevatorPID(RobotMap.intake));
+    manipulatorB.whileHeld(new SetElevatorPID(RobotMap.midRocket));
+    manipulatorB.whenReleased(new SetElevatorPID(RobotMap.intake));
+    manipulatorX.whileHeld(new SetElevatorPID(RobotMap.cargoShip));
+    manipulatorX.whenReleased(new SetElevatorPID(RobotMap.intake));
+    manipulatorY.whileHeld(new SetElevatorPID(RobotMap.highRocket));
+    manipulatorY.whenReleased(new SetElevatorPID(RobotMap.intake));
+    // manipulatorA.whenPressed(new SetElevatorPosition(Preset.LOWROCKET));
+    // manipulatorA.whenReleased(new SetElevatorPosition(Preset.INTAKE));
+    // manipulatorB.whenPressed(new SetElevatorPosition(Preset.MIDROCKET));
+    // manipulatorB.whenReleased(new SetElevatorPosition(Preset.INTAKE));
+    // manipulatorX.whenPressed(new SetElevatorPosition(Preset.CARGOSHIP));
+    // manipulatorX.whenReleased(new SetElevatorPosition(Preset.INTAKE));
+    // manipulatorY.whenPressed(new SetElevatorPosition(Preset.HIGHROCKET));
+    // manipulatorY.whenReleased(new SetElevatorPosition(Preset.INTAKE));
     manipulatorLB.whenPressed(new ExtendHatch());
     manipulatorLB.whenReleased(new RetractHatch());
     manipulatorRB.whenPressed(new ToggleHatchGrip());
     manipulatorLT.whenPressed(new ToggleIntakeDeploy());
-    manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
+    // manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
+    manipulatorRT.whenPressed(new AutoIntake());
     // manipulatorBack.whenPressed(new DeploySkis()); Does not exist yet
 
-    testA.whileHeld(new ManualDownavatorControl(-0.25)); //-0.65 works well
-    testB.whileHeld(new SetDownavatorPID(-51000, 0.25));
-    testX.whileHeld(new SetDownavatorPID(-58000)); //-51000 for just over level, -61177 for top level
-    testY.whileHeld(new ManualDownavatorControl(1)); //0.25
-    testLB.whileHeld(new ManualDriveControl(0.25));
-    testRB.whileHeld(new ManualDriveControl(-0.2));
+    // endgameA.whileHeld(new ManualDownavatorControl(-0.25)); //-0.65 works well
+    // endgameB.whileHeld(new SetDownavatorPID(-51000, 0.25));
+    // endgameX.whileHeld(new SetDownavatorPID(-58000)); //-51000 for just over level, -61177 for top level
+    // endgameY.whileHeld(new ManualDownavatorControl(1)); //0.25
+    // endgameLB.whileHeld(new ManualDriveControl(0.25));
+    // endgameRB.whileHeld(new ManualDriveControl(-0.2));
+    
+    endgameA.whileHeld(new SetDownavatorPID(-39000)); //for level 1 -> 2
+    // endgameB.whileHeld(new SetDownavatorPID(-Y)); for level 2 -> 3
+    endgameX.whileHeld(new SetDownavatorPID(-58000)); //for level 1 -> 3
+    endgameY.whileHeld(new SetDownavatorPID(-400)); //to raise (0 clicks?)
+    endgameRB.whileHeld(new ManualDownavatorControl(1)); //temporary manual raise
+    endgameBack.whenPressed(new DeploySkis());
     
   }
 

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualElevatorControl;
+import frc.robot.commands.UpdateElevatorState;
 
 /**
  * Add your docs here.
@@ -37,6 +38,7 @@ public class Elevator extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ManualElevatorControl());
+    // setDefaultCommand(new UpdateElevatorState());
   }
 
   public void initElevatorController() {

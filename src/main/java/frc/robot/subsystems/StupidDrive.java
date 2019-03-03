@@ -68,8 +68,8 @@ public class StupidDrive extends Subsystem {
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
     //Limit acceleration
-    leftLeader.setOpenLoopRampRate(1);
-    rightLeader.setOpenLoopRampRate(1);
+    leftLeader.setOpenLoopRampRate(0.25);
+    rightLeader.setOpenLoopRampRate(0.25);
 
     //Limit current draw
     leftLeader.setSmartCurrentLimit(40);
@@ -82,11 +82,11 @@ public class StupidDrive extends Subsystem {
   }
 
   public void cheesyDrive(double speedModifier) {
-    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed() * .5, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(-Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
   public void inverseCheesyDrive(double speedModifier) {
-    diffDrive.curvatureDrive(Robot.m_oi.getSpeed() * .5, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    diffDrive.curvatureDrive(Robot.m_oi.getSpeed(), -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
   public void tankDrive(double lSpeed, double rSpeed) {
