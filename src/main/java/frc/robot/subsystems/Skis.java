@@ -36,6 +36,7 @@ public class Skis extends Subsystem {
 
   public void retractSkis() {
     //---------REDACTED--------
+    skisActuator.set(Value.kReverse);
   }
 
 }

@@ -39,9 +39,10 @@ public class StupidDrive extends Subsystem {
   public Encoder leftQuadEncoder = new Encoder(2, 3);
   public AHRS gyro = new AHRS(Port.kMXP);
 
-  DifferentialDrive diffDrive = new DifferentialDrive(leftLeader, rightLeader);
+  public DifferentialDrive diffDrive = new DifferentialDrive(leftLeader, rightLeader);
 
   public boolean drivingForwards = true;
+  public boolean yeeting = false;
 
   @Override
   public void initDefaultCommand() {
@@ -68,8 +69,8 @@ public class StupidDrive extends Subsystem {
     rightFollower2.setIdleMode(IdleMode.kCoast);
 
     //Limit acceleration
-    leftLeader.setOpenLoopRampRate(0.25);
-    rightLeader.setOpenLoopRampRate(0.25);
+    leftLeader.setOpenLoopRampRate(0.5);
+    rightLeader.setOpenLoopRampRate(0.5);
 
     //Limit current draw
     leftLeader.setSmartCurrentLimit(40);

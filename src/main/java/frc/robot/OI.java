@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DeploySkis;
+import frc.robot.commands.DriveConstant;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExtendHatch;
 import frc.robot.commands.ManualDownavatorControl;
@@ -25,6 +26,8 @@ import frc.robot.commands.ToggleHatchExtend;
 import frc.robot.commands.ToggleHatchGrip;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.commands.TurnAbsolute;
+import frc.robot.commands.Unyeet;
+import frc.robot.commands.Yeet;
 import frc.robot.subsystems.Elevator.Preset;
 import frc.robot.commands.ManualDriveControl;
 import frc.robot.commands.RetractHatch;
@@ -82,7 +85,10 @@ public class OI {
     driverLB.whenPressed(new ToggleDriveOrientation());
     driverA.whenPressed(new ToggleHatchExtend());
     driverB.whenPressed(new ToggleHatchGrip());
-    driverX.whileHeld(new ManualDriveControl(0.25));
+    driverX.whileHeld(new ManualDriveControl(0.2));
+    driverY.whenPressed(new Yeet());
+    driverY.whenReleased(new Unyeet());
+    driverBack.whileHeld(new DriveConstant());
     driverRT.whenPressed(new ToggleHatchGrip());
     driverLT.whileHeld(new RunIntake(driverStick, 2, true));
     //Manipulator Controls
@@ -105,7 +111,8 @@ public class OI {
     manipulatorLB.whenPressed(new ExtendHatch());
     manipulatorLB.whenReleased(new RetractHatch());
     manipulatorRB.whenPressed(new ToggleHatchGrip());
-    manipulatorLT.whenPressed(new ToggleIntakeDeploy());
+    // manipulatorLT.whenPressed(new ToggleIntakeDeploy());
+    manipulatorLT.whileHeld(new RunIntake(manipulatorStick, 2, false));
     // manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
     manipulatorRT.whenPressed(new AutoIntake());
     // manipulatorBack.whenPressed(new DeploySkis()); Does not exist yet
@@ -129,15 +136,30 @@ public class OI {
   public double getSpeed() {
     double speed = driverStick.getY(Hand.kLeft);
     if(Math.abs(speed) < 0.01) return 0;
-    else if(speed > 0) return Math.pow(speed, 2);
-    else return -Math.pow(speed, 2);
+    if(Math.abs(speed) < 0.01) return 0;
+    else if(Robot.mDrive.yeeting) {
+      if(speed > 0) return Math.pow(speed, 2);
+      else return -Math.pow(speed, 2);
+    } else {
+      if(speed > 0) return Math.pow(speed, 2) * 0.5;
+      else return -Math.pow(speed, 2) * 0.5;
+    }
+    // else if(speed > 0) return Math.pow(speed, 2) * 0.5;
+    // else return -Math.pow(speed, 2) * 0.5;
+    // else return Math.pow(speed, 3) * 0.5;
   }
 
   public double getRotation() {
     double rotation = -driverStick.getX(Hand.kRight);
     if(Math.abs(rotation) < 0.01) return 0;
-    else if(rotation > 0) return Math.pow(rotation, 2);
-    else return -Math.pow(rotation, 2);
+    else if(Robot.mDrive.yeeting) {
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.5;
+      else return -Math.pow(rotation, 2) * 0.5;
+    } else {
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.5;
+      else return -Math.pow(rotation, 2) * 0.5;
+    }
+    // else return Math.pow(rotation, 3) * 0.5;
   }
 
   public boolean getQuickTurn() {
