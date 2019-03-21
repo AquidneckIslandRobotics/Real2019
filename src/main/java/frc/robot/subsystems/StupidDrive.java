@@ -103,6 +103,15 @@ public class StupidDrive extends Subsystem {
     rightLeader.set(0);
   }
 
+  public void setBrakeMode() {
+    leftLeader.setIdleMode(IdleMode.kBrake);
+    leftFollower1.setIdleMode(IdleMode.kBrake);
+    leftFollower2.setIdleMode(IdleMode.kBrake);
+    rightLeader.setIdleMode(IdleMode.kBrake);
+    rightFollower1.setIdleMode(IdleMode.kBrake);
+    rightFollower2.setIdleMode(IdleMode.kBrake);
+  }
+
   public void setSpeed(double left, double right) {
     leftLeader.set(left);
     rightLeader.set(right);

@@ -31,6 +31,7 @@ public class SetDownavatorPID extends Command {
     downavatorController = new PIDController(0.00014, 0.0, 0.0, downavatorSource, downavatorOutput);
     mTarget = target;
     mMaxSpeed = 1;
+    downavatorController.setOutputRange(-mMaxSpeed, mMaxSpeed);
   }
 
   public SetDownavatorPID(double target, double maxSpeed) {
@@ -40,6 +41,16 @@ public class SetDownavatorPID extends Command {
     downavatorController = new PIDController(0.00014, 0.0, 0.0, downavatorSource, downavatorOutput);
     mTarget = target;
     mMaxSpeed = maxSpeed;
+    downavatorController.setOutputRange(-mMaxSpeed, mMaxSpeed);
+  }
+
+  public SetDownavatorPID(double target, boolean toLevel) {
+    requires(Robot.mDownavator);
+    downavatorSource = new TalonPIDSource(Robot.mDownavator.downavatorLeader);
+    downavatorOutput = new SpeedOutput();
+    downavatorController = new PIDController(0.00014, 0.0, 0.0, downavatorSource, downavatorOutput);
+    mTarget = target;
+    downavatorController.setOutputRange(-1, 0);
   }
 
   // Called just before this Command runs the first time
@@ -47,7 +58,6 @@ public class SetDownavatorPID extends Command {
   protected void initialize() {
     downavatorController.setAbsoluteTolerance(100); //~.25"
     downavatorController.setContinuous(false);
-    downavatorController.setOutputRange(-mMaxSpeed, mMaxSpeed);
     downavatorController.setSetpoint(mTarget);
     downavatorController.enable();
   }

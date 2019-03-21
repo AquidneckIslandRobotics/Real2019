@@ -139,6 +139,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     mSkis.isDeployed = false;
+    mDrive.initDriveControllers();
   }
 
   /**

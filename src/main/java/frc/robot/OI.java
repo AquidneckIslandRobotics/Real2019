@@ -19,6 +19,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExtendHatch;
 import frc.robot.commands.ManualDownavatorControl;
 import frc.robot.commands.SetDownavatorPID;
+import frc.robot.commands.SetDriveToBrake;
 import frc.robot.commands.SetElevatorPID;
 import frc.robot.commands.SetElevatorPosition;
 import frc.robot.commands.ToggleDriveOrientation;
@@ -85,7 +86,8 @@ public class OI {
     driverLB.whenPressed(new ToggleDriveOrientation());
     driverA.whenPressed(new ToggleHatchExtend());
     driverB.whenPressed(new ToggleHatchGrip());
-    driverX.whileHeld(new ManualDriveControl(0.2));
+    driverX.whileHeld(new ManualDriveControl(0.25));
+    driverX.whenReleased(new SetDriveToBrake());
     driverY.whenPressed(new Yeet());
     driverY.whenReleased(new Unyeet());
     driverBack.whileHeld(new DriveConstant());
@@ -126,9 +128,11 @@ public class OI {
     
     endgameA.whileHeld(new SetDownavatorPID(-39000)); //for level 1 -> 2
     // endgameB.whileHeld(new SetDownavatorPID(-Y)); for level 2 -> 3
-    endgameX.whileHeld(new SetDownavatorPID(-58000)); //for level 1 -> 3
-    endgameY.whileHeld(new SetDownavatorPID(-400)); //to raise (0 clicks?)
-    endgameRB.whileHeld(new ManualDownavatorControl(1)); //temporary manual raise
+    endgameX.whileHeld(new SetDownavatorPID(-60000)); //for level 1 -> 3 //-33207 new gearing //-58000
+    endgameX.whenReleased(new SetDownavatorPID(-51000, true)); //-27635 new gearing //-51000 //-51500
+    endgameY.whileHeld(new SetDownavatorPID(-3000)); //to raise (0 clicks?) //-400
+    endgameRB.whileHeld(new ManualDownavatorControl(0.3)); //temporary manual raise
+    endgameLB.whileHeld(new ManualDownavatorControl(-0.3));
     endgameBack.whenPressed(new DeploySkis());
     
   }
