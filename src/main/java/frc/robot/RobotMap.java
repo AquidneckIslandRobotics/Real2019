@@ -45,9 +45,9 @@ public class RobotMap {
   //Elevator Presets
   public static final double intake = 0;
   public static final double cargoShip = -14500;
-  public static final double lowRocket = -4300;
+  public static final double lowRocket = -4400;//-4300;
   public static final double midRocket = -22300;
-  public static final double highRocket = -38400;
+  public static final double highRocket = -40400;//-39400;//38400;
   public static final double upperLimit = -38400;
 
 

@@ -7,23 +7,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Delay extends Command {
-  private Timer mTimer;
-  private double mSeconds;
-  public Delay(double seconds) {
+public class DoNothing extends Command {
+  public DoNothing() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    mTimer = new Timer();
-    mSeconds = seconds;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    mTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -34,7 +28,7 @@ public class Delay extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return mTimer.get() > mSeconds;
+    return false;
   }
 
   // Called once after isFinished returns true

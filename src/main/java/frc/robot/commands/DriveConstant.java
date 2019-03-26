@@ -25,7 +25,7 @@ public class DriveConstant extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.mDrive.diffDrive.curvatureDrive(0.25, Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
+    Robot.mDrive.diffDrive.curvatureDrive(0.2, -Robot.m_oi.getRotation(), Robot.m_oi.getQuickTurn());
   }
 
   // Make this return true when this Command no longer needs to run execute()

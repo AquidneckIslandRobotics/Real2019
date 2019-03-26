@@ -9,11 +9,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class FalconHatchGrabRetract extends CommandGroup {
+public class FalconHatchPlaceExtend extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public FalconHatchGrabRetract() {
+  public FalconHatchPlaceExtend() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -32,8 +32,6 @@ public class FalconHatchGrabRetract extends CommandGroup {
     // arm.
 
     addSequential(new GripHatch());
-    addSequential(new DoNothing(), 0.5);
-    addSequential(new RetractHatch());
-
+    addSequential(new ExtendHatch());
   }
 }

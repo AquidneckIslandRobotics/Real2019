@@ -32,6 +32,7 @@ public class FalconHatchPlaceRetract extends CommandGroup {
     // arm.
 
     addSequential(new ReleaseHatch());
+    addSequential(new DoNothing(), 0.5);
     addSequential(new RetractHatch());
 
   }

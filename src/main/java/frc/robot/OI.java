@@ -17,6 +17,10 @@ import frc.robot.commands.DeploySkis;
 import frc.robot.commands.DriveConstant;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExtendHatch;
+import frc.robot.commands.FalconHatchGrabExtend;
+import frc.robot.commands.FalconHatchGrabRetract;
+import frc.robot.commands.FalconHatchPlaceExtend;
+import frc.robot.commands.FalconHatchPlaceRetract;
 import frc.robot.commands.ManualDownavatorControl;
 import frc.robot.commands.SetDownavatorPID;
 import frc.robot.commands.SetDriveToBrake;
@@ -110,9 +114,15 @@ public class OI {
     // manipulatorX.whenReleased(new SetElevatorPosition(Preset.INTAKE));
     // manipulatorY.whenPressed(new SetElevatorPosition(Preset.HIGHROCKET));
     // manipulatorY.whenReleased(new SetElevatorPosition(Preset.INTAKE));
-    manipulatorLB.whenPressed(new ExtendHatch());
-    manipulatorLB.whenReleased(new RetractHatch());
-    manipulatorRB.whenPressed(new ToggleHatchGrip());
+    
+    // manipulatorLB.whenPressed(new ExtendHatch());
+    // manipulatorLB.whenReleased(new RetractHatch());
+    // manipulatorRB.whenPressed(new ToggleHatchGrip());
+    manipulatorLB.whenPressed(new FalconHatchGrabExtend());
+    manipulatorLB.whenReleased(new FalconHatchGrabRetract());
+    manipulatorRB.whenPressed(new FalconHatchPlaceExtend());
+    manipulatorRB.whenReleased(new FalconHatchPlaceRetract());
+
     // manipulatorLT.whenPressed(new ToggleIntakeDeploy());
     manipulatorLT.whileHeld(new RunIntake(manipulatorStick, 2, false));
     // manipulatorRT.whileHeld(new RunIntake(manipulatorStick, 3, false));
@@ -131,8 +141,8 @@ public class OI {
     endgameX.whileHeld(new SetDownavatorPID(-60000)); //for level 1 -> 3 //-33207 new gearing //-58000
     endgameX.whenReleased(new SetDownavatorPID(-51000, true)); //-27635 new gearing //-51000 //-51500
     endgameY.whileHeld(new SetDownavatorPID(-3000)); //to raise (0 clicks?) //-400
-    endgameRB.whileHeld(new ManualDownavatorControl(0.3)); //temporary manual raise
-    endgameLB.whileHeld(new ManualDownavatorControl(-0.3));
+    endgameRB.whileHeld(new ManualDownavatorControl(1)); //temporary manual raise
+    endgameLB.whileHeld(new ManualDownavatorControl(-1));
     endgameBack.whenPressed(new DeploySkis());
     
   }
@@ -140,13 +150,12 @@ public class OI {
   public double getSpeed() {
     double speed = driverStick.getY(Hand.kLeft);
     if(Math.abs(speed) < 0.01) return 0;
-    if(Math.abs(speed) < 0.01) return 0;
     else if(Robot.mDrive.yeeting) {
       if(speed > 0) return Math.pow(speed, 2);
       else return -Math.pow(speed, 2);
     } else {
-      if(speed > 0) return Math.pow(speed, 2) * 0.5;
-      else return -Math.pow(speed, 2) * 0.5;
+      if(speed > 0) return Math.pow(speed, 2) * 0.55;
+      else return -Math.pow(speed, 2) * 0.55;
     }
     // else if(speed > 0) return Math.pow(speed, 2) * 0.5;
     // else return -Math.pow(speed, 2) * 0.5;
@@ -157,11 +166,11 @@ public class OI {
     double rotation = -driverStick.getX(Hand.kRight);
     if(Math.abs(rotation) < 0.01) return 0;
     else if(Robot.mDrive.yeeting) {
-      if(rotation > 0) return Math.pow(rotation, 2) * 0.5;
-      else return -Math.pow(rotation, 2) * 0.5;
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.55;
+      else return -Math.pow(rotation, 2) * 0.55;
     } else {
-      if(rotation > 0) return Math.pow(rotation, 2) * 0.5;
-      else return -Math.pow(rotation, 2) * 0.5;
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.55;
+      else return -Math.pow(rotation, 2) * 0.55;
     }
     // else return Math.pow(rotation, 3) * 0.5;
   }

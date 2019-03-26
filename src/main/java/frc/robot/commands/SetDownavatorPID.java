@@ -50,7 +50,7 @@ public class SetDownavatorPID extends Command {
     downavatorOutput = new SpeedOutput();
     downavatorController = new PIDController(0.00014, 0.0, 0.0, downavatorSource, downavatorOutput);
     mTarget = target;
-    downavatorController.setOutputRange(-1, 0);
+    downavatorController.setOutputRange(-1, 0.05);
   }
 
   // Called just before this Command runs the first time
