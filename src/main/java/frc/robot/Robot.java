@@ -165,6 +165,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Ele CanLower", mElevator.canLower());
     SmartDashboard.putBoolean("Ele CanRaise", mElevator.canRaise());
     SmartDashboard.putBoolean("Driving Fast", m_oi.drivingFast());
+    SmartDashboard.putNumber("Limelight Angle", mVision.getLimelightAngle());
 
     if(!mElevator.canLower()) mElevator.resetElevatorEncoder();
   }

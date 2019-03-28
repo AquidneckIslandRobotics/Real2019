@@ -37,6 +37,7 @@ import frc.robot.subsystems.Elevator.Preset;
 import frc.robot.commands.ManualDriveControl;
 import frc.robot.commands.RetractHatch;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.DriveToVision;
 import frc.robot.utilities.XboxTriggerButton;
 
 /**
@@ -88,15 +89,19 @@ public class OI {
     // driverB.whenPressed(new CheesyDrive());
     // driverX.whenPressed(new TurnAbsolute(45));
     driverLB.whenPressed(new ToggleDriveOrientation());
-    driverA.whenPressed(new ToggleHatchExtend());
-    driverB.whenPressed(new ToggleHatchGrip());
+    // driverA.whenPressed(new ToggleHatchExtend());
+    // driverB.whenPressed(new ToggleHatchGrip());
+    driverA.whileHeld(new DriveToVision());
+    driverB.whileHeld(new TurnAbsolute(Robot.mDrive.gyro.pidGet() + Robot.mVision.getLimelightAngle()));
     driverX.whileHeld(new ManualDriveControl(0.25));
     driverX.whenReleased(new SetDriveToBrake());
     driverY.whenPressed(new Yeet());
     driverY.whenReleased(new Unyeet());
     driverBack.whileHeld(new DriveConstant());
-    driverRT.whenPressed(new ToggleHatchGrip());
+    // driverRT.whenPressed(new ToggleHatchGrip());
     driverLT.whileHeld(new RunIntake(driverStick, 2, true));
+    driverRT.whenPressed(new Yeet());
+    driverRT.whenReleased(new Unyeet());
     //Manipulator Controls
     manipulatorA.whileHeld(new SetElevatorPID(RobotMap.lowRocket));
     manipulatorA.whenReleased(new SetElevatorPID(RobotMap.intake));

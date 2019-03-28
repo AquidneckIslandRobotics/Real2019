@@ -10,22 +10,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.utilities.SpeedOutput;
 
-public class TurnAbsolute extends Command {
+public class DriveToVision extends Command {
 
   public PIDController turnController;
   public SpeedOutput turnOutput;
   private double mTargetDegrees;
   private Timer mTimer;
 
-  public TurnAbsolute(double targetDegrees) {
+  public DriveToVision() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    // eg. requires(chassis);    
     requires(Robot.mDrive);
     turnOutput = new SpeedOutput();
-    turnController = new PIDController(0.0052, 0, 0.0, Robot.mDrive.gyro, turnOutput);
+    turnController = new PIDController(0.0352, 0, 0.0, Robot.mDrive.gyro, turnOutput);
     mTimer = new Timer();
     mTargetDegrees = Robot.mDrive.getAngle() + Robot.mVision.getLimelightAngle();
   }
@@ -40,28 +41,27 @@ public class TurnAbsolute extends Command {
     turnController.setSetpoint(mTargetDegrees);
     turnController.enable();
     mTimer.start();
+    Robot.mDrive.resetGyro();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    turnController.setSetpoint(Robot.mDrive.getAngle() + Robot.mVision.getLimelightAngle());
-    double speed = turnOutput.getSpeed();
-    Robot.mDrive.setSpeed(speed, speed);
+    turnController.setSetpoint((Robot.mDrive.getAngle() + Robot.mVision.getLimelightAngle()) % 180);
+    SmartDashboard.putNumber("DriveToAngle", (Robot.mDrive.getAngle() + Robot.mVision.getLimelightAngle()) % 180);
+    double rotation = turnOutput.getSpeed();
+    Robot.mDrive.arcadeDrive(0.4, rotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // if(!turnController.onTarget()) mTimer.reset();
-    // if(mTimer.get() > 0.35) return true; commented for vision
-    /*else*/ return false;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    turnController.disable();
     Robot.mDrive.stopDriveMotors();
   }
 
@@ -69,6 +69,6 @@ public class TurnAbsolute extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
+    Robot.mDrive.stopDriveMotors();
   }
 }

@@ -46,4 +46,9 @@ public class Vision extends Subsystem {
     return (Math.atan((getAverageX() - defaultValue[0]) / mFocalLength)) * (180/Math.PI);
   }
 
+  NetworkTable limelightTable = inst.getTable("limelight");
+
+  public double getLimelightAngle() {
+    return limelightTable.getEntry("tx").getDouble(0);
+  }
 }

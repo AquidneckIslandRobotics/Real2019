@@ -94,6 +94,10 @@ public class StupidDrive extends Subsystem {
     diffDrive.tankDrive(lSpeed, rSpeed);
   }
 
+  public void arcadeDrive(double speed, double rotation) {
+    diffDrive.arcadeDrive(speed, rotation);
+  }
+
   // public void inverseTankDrive() {
   //   diffDrive.tankDrive(Robot.m_oi.getDriverLeftY(), Robot.m_oi.getDriverRightY(), true);
   // }
