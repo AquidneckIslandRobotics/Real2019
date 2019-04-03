@@ -61,10 +61,12 @@ public class Robot extends TimedRobot {
     mDownavator.initDownavatorControllers();
     mDownavator.resetDownavatorEncoder();
     mIntake.initIntakeController();
+    mVision.setLimelightOff();
     
     m_chooser.addOption("Center Auto", new CenterAuto());
     m_chooser.addOption("Right Rocket", new RightRocket());
     SmartDashboard.putData("Auto mode", m_chooser);
+
   }
 
   /**
@@ -91,6 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    // mVision.setLimelightOff();
   }
 
   /**
@@ -119,6 +122,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    mVision.setLimelightOff();
   }
 
   /**

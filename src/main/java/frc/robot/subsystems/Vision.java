@@ -51,4 +51,12 @@ public class Vision extends Subsystem {
   public double getLimelightAngle() {
     return limelightTable.getEntry("tx").getDouble(0);
   }
+
+  public void setLimelightOn() {
+    limelightTable.getEntry("ledMode").setDouble(3);
+  }
+
+  public void setLimelightOff() {
+    limelightTable.getEntry("ledMode").setDouble(1);
+  }
 }

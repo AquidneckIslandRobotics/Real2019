@@ -159,8 +159,8 @@ public class OI {
       if(speed > 0) return Math.pow(speed, 2);
       else return -Math.pow(speed, 2);
     } else {
-      if(speed > 0) return Math.pow(speed, 2) * 0.55;
-      else return -Math.pow(speed, 2) * 0.55;
+      if(speed > 0) return Math.pow(speed, 2) * 0.6;
+      else return -Math.pow(speed, 2) * 0.6;
     }
     // else if(speed > 0) return Math.pow(speed, 2) * 0.5;
     // else return -Math.pow(speed, 2) * 0.5;
@@ -171,11 +171,11 @@ public class OI {
     double rotation = -driverStick.getX(Hand.kRight);
     if(Math.abs(rotation) < 0.01) return 0;
     else if(Robot.mDrive.yeeting) {
-      if(rotation > 0) return Math.pow(rotation, 2) * 0.55;
-      else return -Math.pow(rotation, 2) * 0.55;
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.6;
+      else return -Math.pow(rotation, 2) * 0.6;
     } else {
-      if(rotation > 0) return Math.pow(rotation, 2) * 0.55;
-      else return -Math.pow(rotation, 2) * 0.55;
+      if(rotation > 0) return Math.pow(rotation, 2) * 0.6;
+      else return -Math.pow(rotation, 2) * 0.6;
     }
     // else return Math.pow(rotation, 3) * 0.5;
   }

@@ -26,7 +26,7 @@ public class DriveToVision extends Command {
     // eg. requires(chassis);    
     requires(Robot.mDrive);
     turnOutput = new SpeedOutput();
-    turnController = new PIDController(0.0352, 0, 0.0, Robot.mDrive.gyro, turnOutput);
+    turnController = new PIDController(0.0452, 0, 0.0, Robot.mDrive.gyro, turnOutput);
     mTimer = new Timer();
     mTargetDegrees = Robot.mDrive.getAngle() + Robot.mVision.getLimelightAngle();
   }
@@ -34,10 +34,11 @@ public class DriveToVision extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.mVision.setLimelightOn();
     turnController.setAbsoluteTolerance(0.25);
     turnController.setInputRange(-180, 180);
     turnController.setContinuous(true);
-    turnController.setOutputRange(-1, 1);
+    turnController.setOutputRange(-0.5, 0.5); //(-1,1)
     turnController.setSetpoint(mTargetDegrees);
     turnController.enable();
     mTimer.start();
@@ -63,12 +64,13 @@ public class DriveToVision extends Command {
   @Override
   protected void end() {
     Robot.mDrive.stopDriveMotors();
+    Robot.mVision.setLimelightOff();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.mDrive.stopDriveMotors();
+    end();
   }
 }
